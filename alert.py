@@ -37,7 +37,6 @@ tabela = soup.find('table', class_='jakoscpowietrza')
 
 stacje = [s.get_text() for s in tabela.find_all('th', class_='tabela_opis3')]
 substancje = [s.get_text() for s in tabela.find_all('th', class_='tabela_opis2')]
-print(substancje)
 
 # Sprawdzenie, czy w tabeli znajduja sie informacje o poziomie zoltym lub czerwonym
 
@@ -52,4 +51,7 @@ for i in kolor:
     elif 'zolty' in i['src']:
         alert_yel.append(i.parent.parent.get_text().strip())
 
-send_email(alert_red, alert_yel)
+if len(alert_red) > 0 or len(alert_yel) > 0:
+    send_email(alert_red, alert_yel)
+else:
+    print('Powietrze jest ok! Nie ma potrzeby wysyłać e-maila z ostrzezeniem.')
